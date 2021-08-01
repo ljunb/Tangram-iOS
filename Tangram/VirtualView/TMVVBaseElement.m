@@ -11,11 +11,10 @@
 #import "TangramEvent.h"
 #import "UIView+Tangram.h"
 #import <VirtualView/VVViewContainer.h>
-#import <LazyScroll/TMLazyItemViewProtocol.h>
 
 static BOOL xmlIsLoad = NO;
 
-@interface TMVVBaseElement ()<VirtualViewDelegate, TMLazyItemViewProtocol>{
+@interface TMVVBaseElement ()<VirtualViewDelegate>{
     //
 }
 @property(assign, nonatomic)BOOL    appear;
@@ -24,7 +23,7 @@ static BOOL xmlIsLoad = NO;
 @implementation TMVVBaseElement
 
 + (void)initVirtualViewSystem{
-    [VVTempleteManager sharedInstance];
+//    [VVTempleteManager sharedInstance];
 }
 
 - (id)init{
@@ -53,7 +52,6 @@ static BOOL xmlIsLoad = NO;
 
 - (void)calculateLayout
 {
-    ///self.itemModel.type
     self.frame = [self fitRect:self.frame];
     if (self.contentView==nil) {
         self.contentView = [VVViewContainer viewContainerWithTemplateType:self.tangramItemModel.type];

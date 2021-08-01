@@ -16,6 +16,10 @@
 #import <VirtualView/UIView+VirtualView.h>
 #import <TMUtils/TMUtils.h>
 
+#import "ITDefines.h"
+#import "UIView+Tangram.h"
+#import "TangramDefaultItemModel.h"
+
 //****************************************************************
 
 @interface TangramView () <TMLazyScrollViewDataSource>
@@ -396,7 +400,16 @@
             }
             NSMutableArray *modelArray = [[NSMutableArray alloc] init];
             for (int j=0; j<numberOfItemsInLayout; j++) {
-                [modelArray tm_safeAddObject:[self.clDataSource itemModelInTangramView:self forLayout:layout atIndex:j]];
+                id<TangramItemModelProtocol> model = [self.clDataSource itemModelInTangramView:self forLayout:layout atIndex:j];
+                // check async load in layout
+                if ([model isKindOfClass:[TangramDefaultItemModel class]]) {
+                    TangramDefaultItemModel *itemModel = (TangramDefaultItemModel *)model;
+                    NSString *asyncLoadKey = [itemModel bizValueForKey:@"load"];
+                    if (asyncLoadKey && asyncLoadKey.length > 0) {
+                        [self startAsyncLoad:asyncLoadKey inTargetLayout:layout itemModel:itemModel];
+                    }
+                }
+                [modelArray tm_safeAddObject:model];
             }
             [layout setItemModels:[NSArray arrayWithArray:modelArray]];
         }

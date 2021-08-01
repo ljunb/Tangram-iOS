@@ -15,6 +15,7 @@
 #import "VVBinaryLoader.h"
 #import "TangramDefaultDataSourceHelper.h"
 #import "TangramEvent.h"
+
 #import <VirtualView/VVTemplateManager.h>
 
 @interface VVTempleteManager()
@@ -133,11 +134,13 @@
         NSMutableDictionary *templeteVersionDict = [[NSMutableDictionary alloc]init];
         [templeteVersionDict tm_safeSetObject:templeteType forKey:@"type"];
         NSFileManager* fileManager = [NSFileManager defaultManager];
-        
+
         //如果是本地的模板的话，直接version = 1
         NSString *localFileName = [self.localTempleteDict tm_stringForKey:templeteType];
         NSString* localPath =[[NSBundle mainBundle] pathForResource:localFileName ofType:@"out"];
         if (localFileName.length > 0 && localPath.length > 0 && [fileManager fileExistsAtPath:localPath]) {
+            NSData* buff = [NSData dataWithContentsOfFile:localPath];
+            [[VVBinaryLoader shareInstance] loadFromBuffer:buff];
             [[VVTemplateManager sharedManager] loadTemplateFileAsync:localPath forType:templeteType completion:nil];
             [templeteVersionDict tm_safeSetObject:@"1" forKey:@"version"];
             [self.templeteVersionDict tm_safeSetObject:@"1" forKey:templeteType];
@@ -153,6 +156,7 @@
  */
 - (void)reloadTemplete
 {
+    [[VVBinaryLoader shareInstance]clear];
     [self loadCachedTemplete];
     TangramEvent *event = [[TangramEvent alloc]initWithTopic:@"reloadDataByHelper" withTangramView:nil posterIdentifier:nil andPoster:self];
     [self.tangramBus postEvent:event];

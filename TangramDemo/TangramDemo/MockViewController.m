@@ -7,24 +7,17 @@
 
 #import <UIKit/UIKit.h>
 #import "MockViewController.h"
+#import "MockTangramView.h"
 #import <Tangram/TangramView.h>
-#import <Tangram/TangramDefaultDataSourceHelper.h>
-#import <Tangram/TangramDefaultItemModelFactory.h>
-#import <Tangram/TangramContext.h>
-#import <Tangram/TangramEvent.h>
-#import <TMUtils/TMUtils.h>
 
-@interface MockViewController ()<TangramViewDatasource>
+#import <Tangram/ITangramEngine.h>
+#import <Tangram/ITangramRootView.h>
+#import <Tangram/TangramItemModelProtocol.h>
 
-@property (nonatomic, strong) NSMutableArray *layoutModelArray;
 
-@property (nonatomic, strong) NSMutableArray *modelArray;
+@interface MockViewController ()<ITangramViewLoadProtocol>
 
-@property (nonatomic, strong) TangramView    *tangramView;
-
-@property (nonatomic, strong) NSArray *layoutArray;
-
-@property  (nonatomic, strong) TangramBus *tangramBus;
+@property (nonatomic, strong) MockTangramView    *tangramView;
 
 
 @end
@@ -33,100 +26,73 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tangramView render];
+}
+
+- (void)getDataFromCache:(NSString *)loadKey completion:(ITLayoutResponseBlock)completion {
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"IComponent" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSData *data = [mockDataString dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-    [self loadMockContent];
-    [self registEvent];
-    [self.tangramView reloadData];
-    // Do any additional setup after loading the view.
+    [NSThread sleepForTimeInterval:2];
+    completion(result, YES);
 }
 
-- (TangramBus *)tangramBus
-{
-    if (nil == _tangramBus) {
-        _tangramBus = [[TangramBus alloc]init];
-    }
-    return _tangramBus;
-}
--(NSMutableArray *)modelArray
-{
-    if (nil == _modelArray) {
-        _modelArray = [[NSMutableArray alloc]init];
-    }
-    return _modelArray;
+- (void)getDataFromNetwork:(NSString *)loadKey completion:(ITLayoutResponseBlock)completion {
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"IComponentFromNetwork" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSData *data = [mockDataString dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    
+    [NSThread sleepForTimeInterval:2];
+    completion(result, YES);
 }
 
--(TangramView *)tangramView
+- (nonnull NSString *)getLayoutLoadKey {
+    return @"MockViewController";
+}
+
+#pragma mark - XPTangramAsyncItemLoadDelegate
+- (void)asyncLoadJSONDataWithKey:(NSString *)loadKey originData:(NSDictionary *)originData completion:(void (^)(NSDictionary * _Nonnull))completion {
+    if ([loadKey isEqualToString:@"com.xxx.async_load.test1"]) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [NSThread sleepForTimeInterval:1];
+            
+            completion(@{@"itemTitle": @"title from mock view controller"});
+        });
+    } else if ([loadKey isEqualToString:@""]) {
+        
+    }
+}
+
+- (void)virtualViewDidClickWithAction:(NSString *)action reportKey:(NSString *)reportKey originData:(NSDictionary *)originData {
+    NSLog(@"virtual view did click : %@, reportKey: %@, originData: %@", action, reportKey, originData);
+}
+
+- (UIView *)itemInTangramView:(TangramView *)view withModel:(NSObject<TangramItemModelProtocol> *)model forLayout:(UIView<TangramLayoutProtocol> *)layout {
+    UIView *reuseableView = [view dequeueReusableItemWithIdentifier:model.reuseIdentifier];
+
+    if (reuseableView) {
+        reuseableView = [ITangramEngine refreshElement:reuseableView byModel:model layout:layout];
+    } else {
+        reuseableView =  [ITangramEngine elementByModel:model layout:layout];
+    }
+
+    return reuseableView;
+}
+
+
+#pragma mark - Getter
+-(MockTangramView *)tangramView
 {
     if (nil == _tangramView) {
-        _tangramView = [[TangramView alloc]init];
+        _tangramView = [[MockTangramView alloc]init];
         _tangramView.frame = self.view.bounds;
-        [_tangramView setDataSource:self];
-        _tangramView.backgroundColor = [UIColor whiteColor];
+        _tangramView.loadDataDelegate = self;
+        _tangramView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
         [self.view addSubview:_tangramView];
     }
     return _tangramView;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
--(void)loadMockContent
-{
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"TangramMock" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
-    NSData *data = [mockDataString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data options:NSJSONReadingAllowFragments error:nil];
-    self.layoutModelArray = [[dict objectForKey:@"data"] objectForKey:@"cards"];
-    [TangramDefaultItemModelFactory registElementType:@"image" className:@"TangramSingleImageElement"];
-    [TangramDefaultItemModelFactory registElementType:@"text" className:@"TangramSimpleTextElement"];
-//    [TangramDefaultItemModelFactory registElementType:@"110" className:@"TangramSingleImageElement"];
-//    [TangramDefaultItemModelFactory registElementType:@"202" className:@"TangramSingleImageElement"];
-//    [TangramDefaultItemModelFactory registElementType:@"203" className:@"TangramSingleImageElement"];
-//    [TangramDefaultItemModelFactory registElementType:@"204" className:@"TangramSingleImageElement"];
-    self.layoutArray = [TangramDefaultDataSourceHelper layoutsWithArray:self.layoutModelArray tangramBus:self.tangramBus];
-}
-
-- (void)registEvent
-{
-    [self.tangramBus registerAction:@"responseToClickEvent:" ofExecuter:self onEventTopic:@"jumpAction"];
-}
-
-- (void)responseToClickEvent:(TangramContext *)context
-{
-    NSString *action = [context.event.params tm_stringForKey:@"action"];
-    NSLog(@"Click Action: %@",action);
-}
-- (NSUInteger)numberOfLayoutsInTangramView:(TangramView *)view
-{
-    return self.layoutArray.count;
-}
-
-- (UIView<TangramLayoutProtocol> *)layoutInTangramView:(TangramView *)view atIndex:(NSUInteger)index
-{
-    return [self.layoutArray objectAtIndex:index];
-}
-- (NSUInteger)numberOfItemsInTangramView:(TangramView *)view forLayout:(UIView<TangramLayoutProtocol> *)layout
-{
-    return layout.itemModels.count;
-}
-
-- (NSObject<TangramItemModelProtocol> *)itemModelInTangramView:(TangramView *)view forLayout:(UIView<TangramLayoutProtocol> *)layout atIndex:(NSUInteger)index
-{
-    return [layout.itemModels objectAtIndex:index];;
-}
-
-- (UIView *)itemInTangramView:(TangramView *)view withModel:(NSObject<TangramItemModelProtocol> *)model forLayout:(UIView<TangramLayoutProtocol> *)layout atIndex:(NSUInteger)index
-{
-    UIView *reuseableView = [view dequeueReusableItemWithIdentifier:model.reuseIdentifier ];
-    
-    if (reuseableView) {
-        reuseableView =  [TangramDefaultDataSourceHelper refreshElement:reuseableView byModel:model layout:layout tangramBus:self.tangramBus];
-    }
-    else
-    {
-        reuseableView =  [TangramDefaultDataSourceHelper elementByModel:model layout:layout tangramBus:self.tangramBus];
-    }
-    return reuseableView;
-}
 @end

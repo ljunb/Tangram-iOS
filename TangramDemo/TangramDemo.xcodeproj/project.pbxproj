@@ -18,6 +18,7 @@
 		928D30B42020678D00C419B8 /* TangramSingleImageElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 928D30AE2020678C00C419B8 /* TangramSingleImageElement.m */; };
 		928D30B52020678D00C419B8 /* EntryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 928D30B02020678D00C419B8 /* EntryTableViewController.m */; };
 		981273367B241CA62055C91F /* libPods-TangramDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2652B2D10FB0931A99CE4F /* libPods-TangramDemo.a */; };
+		AA4C9F4226B3E16C00CAD34B /* MockTangramView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4C9F4126B3E16C00CAD34B /* MockTangramView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		928D30AE2020678C00C419B8 /* TangramSingleImageElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TangramSingleImageElement.m; sourceTree = "<group>"; };
 		928D30AF2020678D00C419B8 /* MockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockViewController.h; sourceTree = "<group>"; };
 		928D30B02020678D00C419B8 /* EntryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryTableViewController.m; sourceTree = "<group>"; };
+		AA4C9F4026B3E16C00CAD34B /* MockTangramView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MockTangramView.h; sourceTree = "<group>"; };
+		AA4C9F4126B3E16C00CAD34B /* MockTangramView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MockTangramView.m; sourceTree = "<group>"; };
 		CA2652B2D10FB0931A99CE4F /* libPods-TangramDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TangramDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE52878725578710761DDD6 /* Pods-TangramDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangramDemo.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TangramDemo/Pods-TangramDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		E1D93047B554CE3C0E677541 /* Pods-TangramDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangramDemo.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TangramDemo/Pods-TangramDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -80,6 +83,8 @@
 				928D30A62020678C00C419B8 /* Resources */,
 				928D30AA2020678C00C419B8 /* Element */,
 				920BF8C2201764E1004F7966 /* AppDelegate.h */,
+				AA4C9F4026B3E16C00CAD34B /* MockTangramView.h */,
+				AA4C9F4126B3E16C00CAD34B /* MockTangramView.m */,
 				920BF8C3201764E1004F7966 /* AppDelegate.m */,
 				920BF8C5201764E1004F7966 /* ViewController.h */,
 				920BF8C6201764E1004F7966 /* ViewController.m */,
@@ -206,20 +211,20 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/../Pods/Target Support Files/Pods-TangramDemo/Pods-TangramDemo-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TangramDemo/Pods-TangramDemo-resources.sh",
 				"${PODS_ROOT}/../Tangram/Resources/TangramKitVVElementTypeMap.plist",
 				"${PODS_ROOT}/../Tangram/Resources/TangramLayoutTypeMap.plist",
-				"${PODS_ROOT}/../Tangram/Resources/TmallComponent2.out",
+				"${PODS_ROOT}/../Tangram/Resources/XPComponentMD5",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TangramKitVVElementTypeMap.plist",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TangramLayoutTypeMap.plist",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TmallComponent2.out",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/XPComponentMD5",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-TangramDemo/Pods-TangramDemo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TangramDemo/Pods-TangramDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F04088E1AA23D8122992FFBB /* [CP] Check Pods Manifest.lock */ = {
@@ -251,6 +256,7 @@
 				928D30B22020678D00C419B8 /* MockViewController.m in Sources */,
 				920BF8C7201764E1004F7966 /* ViewController.m in Sources */,
 				928D30B32020678D00C419B8 /* TangramSimpleTextElement.m in Sources */,
+				AA4C9F4226B3E16C00CAD34B /* MockTangramView.m in Sources */,
 				920BF8D2201764E1004F7966 /* main.m in Sources */,
 				920BF8C4201764E1004F7966 /* AppDelegate.m in Sources */,
 				928D30B42020678D00C419B8 /* TangramSingleImageElement.m in Sources */,

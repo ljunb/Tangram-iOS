@@ -12,6 +12,7 @@
 @protocol TangramLayoutProtocol;
 @class TangramView;
 @class TangramBus;
+@class TangramDefaultItemModel;
 
 //****************************************************************
 
@@ -113,5 +114,15 @@
 - (void)resetLayoutEnterTimes;
 // Set vertical offset to layouts below some specific layout
 - (void)changeLayoutPositionBelowLayout:(UIView<TangramLayoutProtocol> *)layout offset:(CGFloat)offset;
+
+// xpeng custom
+/// 开始执行卡片的异步加载
+///
+/// @param loadKey 卡片对应的异步加载key
+/// @param layout 卡片所在实例
+/// @param itemModel 卡片layout内的itemModel对象，目前用的SingleColumnLayout，每个layout里面只有一个itemModel
+- (void)startAsyncLoad:(NSString *)loadKey
+        inTargetLayout:(UIView<TangramLayoutProtocol> *)layout
+             itemModel:(TangramDefaultItemModel *)itemModel;
 
 @end

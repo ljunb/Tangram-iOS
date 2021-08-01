@@ -7,6 +7,7 @@ target 'TangramDemo' do
     pod 'Tangram', :path => './'
     # pod 'VirtualView', :path => '../VirtualView/'
     # pod 'LazyScroll', :path => '../LazyScrollView/'
+    pod 'VirtualView', :git => 'https://github.com/ljunb/VirtualView-iOS.git', :commit => '5f47b0d'
 end
 
 workspace 'Tangram'

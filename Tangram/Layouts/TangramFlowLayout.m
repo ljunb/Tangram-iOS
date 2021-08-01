@@ -673,7 +673,7 @@
             switch (self.bgScaleType) {
                 case TangramFlowLayoutBgImageScaleTypeFitStart:
                 {
-                    [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:[NSURL URLWithString:self.bgImgURL] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
+                    [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:self.bgImgURL] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
                         if (image) {
                             
                             self.bgImageView.image = image;

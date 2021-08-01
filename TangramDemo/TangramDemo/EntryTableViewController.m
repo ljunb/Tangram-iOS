@@ -33,7 +33,8 @@
 {
     return @[
              @{@"name":@"自定义布局-色块Demo(不使用Helper)", @"entry":@"ViewController"},
-             @{@"name":@"JSON数据Demo(使用Helper)", @"entry":@"MockViewController"}
+             @{@"name":@"JSON数据Demo(使用Helper)", @"entry":@"MockViewController"},
+             @{@"name":@"封装的基础View", @"entry": @"PlaygroundViewController"}
              ];
 }
 #pragma mark - Table view data source

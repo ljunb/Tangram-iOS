@@ -557,7 +557,7 @@
     __weak typeof(self) weakSelf = self;
     //以1 为准
     if (self.indicatorImg1.length > 0) {
-        [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:[NSURL URLWithString:self.indicatorImg1] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
+        [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:self.indicatorImg1] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
             __strong typeof(self) strongSelf = weakSelf;
             if (!error) {
                 strongSelf.pageControl.selectedImage = image;
@@ -579,7 +579,7 @@
         }];
     }
     if (self.indicatorImg2.length > 0) {
-        [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:[NSURL URLWithString:self.indicatorImg2] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
+        [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:self.indicatorImg2] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
             __strong typeof(self) strongSelf = weakSelf;
             if (!error) {
                 strongSelf.pageControl.normalImage = image;

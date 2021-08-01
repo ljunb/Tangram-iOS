@@ -8,13 +8,14 @@
 #import <VirtualView/VVViewFactory.h>
 #import <VirtualView/VVBinaryLoader.h>
 #import <VirtualView/VVViewContainer.h>
+#import <LazyScroll/TMLazyItemViewProtocol.h>
 #import "TangramElementReuseIdentifierProtocol.h"
 #import "TangramElementHeightProtocol.h"
 #import "TangramEasyElementProtocol.h"
 #import "TangramDefaultItemModel.h"
 #import "TangramBus.h"
 
-@interface TMVVBaseElement : UIView <TangramElementReuseIdentifierProtocol, TangramEasyElementProtocol, TangramElementHeightProtocol>
+@interface TMVVBaseElement : UIView <TangramElementReuseIdentifierProtocol, TangramEasyElementProtocol, TangramElementHeightProtocol, TMLazyItemViewProtocol>
 @property(nonatomic, strong)VVViewContainer* contentView;
 @property(nonatomic, assign)BOOL disableCache;
 @property   (nonatomic, strong) TangramDefaultItemModel        *tangramItemModel;

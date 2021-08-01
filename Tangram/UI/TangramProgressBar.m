@@ -107,7 +107,7 @@
     if (bgImgURL.length > 0) {
         __weak typeof(self) weakSelf = self;
         
-        [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:[NSURL URLWithString:bgImgURL] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
+        [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:bgImgURL] options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
             __strong typeof(self) strongSelf = weakSelf;
             if (!error)
             {
