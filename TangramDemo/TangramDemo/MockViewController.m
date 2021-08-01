@@ -30,16 +30,16 @@
 }
 
 - (void)getDataFromCache:(NSString *)loadKey completion:(ITLayoutResponseBlock)completion {
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"IComponent" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Mock" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
     NSData *data = [mockDataString dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-    [NSThread sleepForTimeInterval:2];
+//    [NSThread sleepForTimeInterval:2];
     completion(result, YES);
 }
 
 - (void)getDataFromNetwork:(NSString *)loadKey completion:(ITLayoutResponseBlock)completion {
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"IComponentFromNetwork" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MockFromNetwork" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
     NSData *data = [mockDataString dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
@@ -70,6 +70,7 @@
 
 - (UIView *)itemInTangramView:(TangramView *)view withModel:(NSObject<TangramItemModelProtocol> *)model forLayout:(UIView<TangramLayoutProtocol> *)layout {
     UIView *reuseableView = [view dequeueReusableItemWithIdentifier:model.reuseIdentifier];
+    view.backgroundColor = UIColor.clearColor;
 
     if (reuseableView) {
         reuseableView = [ITangramEngine refreshElement:reuseableView byModel:model layout:layout];
@@ -88,7 +89,7 @@
         _tangramView = [[MockTangramView alloc]init];
         _tangramView.frame = self.view.bounds;
         _tangramView.loadDataDelegate = self;
-        _tangramView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+        _tangramView.backgroundColor = UIColor.lightGrayColor;
         [self.view addSubview:_tangramView];
     }
     return _tangramView;

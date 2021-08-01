@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3419863626B64FD3007B27C5 /* Mock.json in Resources */ = {isa = PBXBuildFile; fileRef = 3419863526B64FD3007B27C5 /* Mock.json */; };
+		3419863826B65008007B27C5 /* MockFromNetwork.json in Resources */ = {isa = PBXBuildFile; fileRef = 3419863726B65008007B27C5 /* MockFromNetwork.json */; };
 		920BF8C4201764E1004F7966 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 920BF8C3201764E1004F7966 /* AppDelegate.m */; };
 		920BF8C7201764E1004F7966 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 920BF8C6201764E1004F7966 /* ViewController.m */; };
 		920BF8CC201764E1004F7966 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 920BF8CB201764E1004F7966 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3419863526B64FD3007B27C5 /* Mock.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Mock.json; sourceTree = "<group>"; };
+		3419863726B65008007B27C5 /* MockFromNetwork.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockFromNetwork.json; sourceTree = "<group>"; };
 		920BF8BF201764E1004F7966 /* TangramDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TangramDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		920BF8C2201764E1004F7966 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		920BF8C3201764E1004F7966 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -82,9 +86,9 @@
 			children = (
 				928D30A62020678C00C419B8 /* Resources */,
 				928D30AA2020678C00C419B8 /* Element */,
-				920BF8C2201764E1004F7966 /* AppDelegate.h */,
 				AA4C9F4026B3E16C00CAD34B /* MockTangramView.h */,
 				AA4C9F4126B3E16C00CAD34B /* MockTangramView.m */,
+				920BF8C2201764E1004F7966 /* AppDelegate.h */,
 				920BF8C3201764E1004F7966 /* AppDelegate.m */,
 				920BF8C5201764E1004F7966 /* ViewController.h */,
 				920BF8C6201764E1004F7966 /* ViewController.m */,
@@ -104,6 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				928D30A72020678C00C419B8 /* TangramMock.json */,
+				3419863526B64FD3007B27C5 /* Mock.json */,
+				3419863726B65008007B27C5 /* MockFromNetwork.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -199,6 +205,8 @@
 				920BF8CF201764E1004F7966 /* LaunchScreen.storyboard in Resources */,
 				920BF8CC201764E1004F7966 /* Assets.xcassets in Resources */,
 				928D30B12020678D00C419B8 /* TangramMock.json in Resources */,
+				3419863826B65008007B27C5 /* MockFromNetwork.json in Resources */,
+				3419863626B64FD3007B27C5 /* Mock.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
