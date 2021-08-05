@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSMutableDictionary *componentBase64Dict;
 
 @property (nonatomic, assign, getter=isLoadedXML) BOOL loadedXML;
+@property (nonatomic, assign) BOOL isExistsTangramComponents;
 
 @end
 
@@ -40,6 +41,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        _isExistsTangramComponents = [ITangramDownloader isExistsTangramComponents];
         if (!self.isLoadedXML) {
             [self loadAllComponentNames];
             [self registerAllVVComponents];
@@ -102,7 +104,7 @@
 - (void)loadAllComponentNames {
     [self.localComponentDict removeAllObjects];
     // 文件目录中有新的组件
-    if ([ITangramDownloader isExistsTangramComponents]) {
+    if (self.isExistsTangramComponents) {
         [self loadComponentNamesFromTangramFolder];
     } else {
         [self loadComponentNamesFromPlist];
@@ -111,18 +113,15 @@
 
 - (void)registerAllVVComponents {
     NSArray *elementList = [self.localComponentDict allKeys];
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString *localTangramPath = [ITangramDownloader getTangramComponentsPath];
+    
     for (NSString *templeteType in elementList) {
-        
-        NSMutableDictionary *templeteVersionDict = [[NSMutableDictionary alloc]init];
-        [templeteVersionDict tm_safeSetObject:templeteType forKey:@"type"];
-        NSFileManager* fileManager = [NSFileManager defaultManager];
-        
-        //如果是本地的模板的话，直接version = 1
         NSString *localFileName = [self.localComponentDict tm_stringForKey:templeteType];
         
         // 如已经下载了Tangram组件，则用最新的
-        if ([ITangramDownloader isExistsTangramComponents]) {
-            NSString* localPath =[self getFilePathWithTemplateName:localFileName];
+        if (self.isExistsTangramComponents) {
+            NSString* localPath = [localTangramPath stringByAppendingPathComponent:[localFileName stringByAppendingString:@".out"]];
             
             if (localFileName.length > 0 && localPath.length > 0 && [fileManager fileExistsAtPath:localPath]) {
                 NSLog(@"加载文件目录组件模板 filePath: %@ type: %@", localPath, templeteType);
@@ -152,7 +151,9 @@
     }
     
     for (int i = 0; i < componentNames.count; i++) {
-        NSString *cmpName = [componentNames objectAtIndex:i];
+        NSString *cmpFullName = componentNames[i];
+        
+        NSString *cmpName = [[cmpFullName componentsSeparatedByString:@".out"] firstObject];
         if (cmpName.length == 0) {
             continue;
         }
@@ -180,11 +181,6 @@
             [self.componentBase64Dict tm_safeSetObject:base64 forKey:key];
         }
     }
-}
-
-- (NSString *)getFilePathWithTemplateName:(NSString *)templateName {
-    NSString *xpCmpPath = [ITangramDownloader getTangramComponentsPath];
-    return [xpCmpPath stringByAppendingPathComponent:[templateName stringByAppendingString:@".out"]];
 }
 
 - (BOOL)loadDynamicTemplateWithBase64String:(NSString *)cmpBase64Str templateType:(NSString *)type {
